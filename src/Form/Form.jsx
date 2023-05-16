@@ -7,8 +7,7 @@ function Form() {
   const [rating, setRating] = useState(0);
   const [arrivalDate, setArrivalDate] = useState("");
   const [departureDate, setDepartureDate] = useState("");
-  const [images, setImages] = useState([]);
-const [imageFile, setImageFile] = useState([])
+  const [imageFile, setImageFile] = useState([]);
   const handleSubmit = (event) => {
     event.preventDefault();
 
