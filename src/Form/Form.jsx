@@ -8,7 +8,7 @@ function Form() {
   const [arrivalDate, setArrivalDate] = useState("");
   const [departureDate, setDepartureDate] = useState("");
   const [images, setImages] = useState([]);
-
+const [imageFile, setImageFile] = useState([])
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -19,12 +19,9 @@ function Form() {
     formData.append("rating", rating);
     formData.append("arrivalDate", arrivalDate);
     formData.append("departureDate", departureDate);
+    formData.append("imageFile", imageFile);
 
-    images.forEach((image) => {
-      formData.append("images", image);
-    });
-
-    fetch("/api/destinations/add", {
+    fetch("http://localhost:8080/add", {
       method: "POST",
       body: formData,
     }).then((response) => {
@@ -97,13 +94,13 @@ function Form() {
         onChange={(event) => setDepartureDate(event.target.value)}
         required
       />
-
-      <label htmlFor="images">Images:</label>
+      <label htmlFor="imageFile">Image:</label>
       <input
         type="file"
-        id="images"
-        multiple
-        onChange={(event) => setImages([...event.target.files])}
+        id="imageFile"
+        accept="image/*"
+        onChange={(event) => setImageFile(event.target.files[0])} // Store only the first selected file
+        required
       />
 
       <button type="submit">Add Destination</button>
