@@ -1,0 +1,32 @@
+.header {
+  height: 20vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin:2vh;
+
+  &__login {
+    height: 10vh;
+    width: auto;
+    .login {
+      height: 10vh;
+      width: auto;
+    }
+  }
+  &__menu {
+    height: 10vh;
+    width: auto;
+    .menu {
+      height: 10vh;
+      width: auto;
+    }
+  }
+  &__logo {
+    height: 15vh;
+    width: auto;
+    .logo {
+      height: 20vh;
+      width: auto;
+    }
+  }
+}

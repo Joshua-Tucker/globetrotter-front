@@ -1,10 +1,12 @@
 import './App.scss';
+import Header from './Containers/Header/Header';
 import Form from './Form/Form';
 
 function App() {
   return (
     <div className="App">
-    <Form/>
+      <Header/>
+    {/* <Form/> */}
     </div>
   );
 }
