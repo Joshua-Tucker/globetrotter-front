@@ -1,12 +1,13 @@
-import React from 'react'
-import Destination from '../../Components/Destination/Destination'
+import React from "react";
+import Destination from "../../Components/Destination/Destination";
+import { Link } from "react-router-dom";
 
 const Main = ({ data }) => {
-    return (
-      <div>
-        {data.map((destination, index) => (
+  return (
+    <div>
+      {data.map((destination, index) => (
+        <div key={index}>
           <Destination
-            key={index}
             arrivalDate={destination.arrivalDate}
             departureDate={destination.departureDate}
             location={destination.location}
@@ -15,11 +16,11 @@ const Main = ({ data }) => {
             description={destination.description}
             images={destination.images}
           />
-        ))}
-      </div>
-    );
-    
-  };
-  
-  export default Main;
-  
+          <Link to={`/update/${destination.id}`}>Update</Link>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default Main;

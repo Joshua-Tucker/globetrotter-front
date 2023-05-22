@@ -1,29 +1,24 @@
-import React from "react";
-import Button from "../Button/Button";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import React, { useState } from "react";
 import Cross from "../../styles/images/black-cross.png";
 
-const Overlay = ({ toggleOverlay, onUpdate }) => {
-    const [id, setId] = useState("");
-  
-    const handleUpdate = () => {
-      onUpdate(id);
-    };
-  
-    return (
-      <div className="overlay">
-        <input
-          type="text"
-          value={id}
-          onChange={(event) => setId(event.target.value)}
-          placeholder="Enter Destination ID"
-        />
-        <img src={Cross} onClick={toggleOverlay} />
-        <Button text="Update" handleClick={() => onUpdate(id)} />
-      </div>
-    );
+const Overlay = ({ handleUpdate, toggleOverlay }) => {
+  const [id, setId] = useState("");
+
+  const onUpdate = () => {
+    handleUpdate(id);
+    toggleOverlay();
   };
-  
+
+  return (
+    <div className="overlay-container">
+      <div className="overlay-content">
+        <img src={Cross} alt="Close" onClick={toggleOverlay} />
+        <h2>Update</h2>
+        <input type="text" value={id} onChange={(e) => setId(e.target.value)} />
+        <button onClick={onUpdate}>Update</button>
+      </div>
+    </div>
+  );
+};
 
 export default Overlay;

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import "./Form.scss";
-const Form = ({ isEditing, id }) => {
+
+
+const Form = ({ isEditing }) => {
   const [location, setLocation] = useState("");
   const [country, setCountry] = useState("");
   const [description, setDescription] = useState("");
@@ -11,19 +13,38 @@ const Form = ({ isEditing, id }) => {
   const [imageFiles, setImageFiles] = useState(null);
   const [destinationData, setDestinationData] = useState(null);
 
+  const locationState = useLocation().state; // Access the location state
+
+  const { id } = useParams();
+
+
   useEffect(() => {
     if (isEditing) {
       fetchDestinationData();
+    } else if (locationState && locationState.selectedItem) {
+      const { selectedItem } = locationState;
+      setLocation(selectedItem.location);
+      setCountry(selectedItem.country);
+      setDescription(selectedItem.description);
+      setRating(selectedItem.rating);
+      setArrivalDate(selectedItem.arrivalDate);
+      setDepartureDate(selectedItem.departureDate);
     }
-  }, [isEditing]);
-
+  }, [isEditing, locationState]);
 
   const fetchDestinationData = async () => {
     try {
       const response = await fetch(`http://localhost:8080/destination/${id}`);
       if (response.ok) {
         const data = await response.json();
-        const { location, country, description, rating, arrivalDate, departureDate } = data;
+        const {
+          location,
+          country,
+          description,
+          rating,
+          arrivalDate,
+          departureDate,
+        } = data;
         setLocation(location);
         setCountry(country);
         setDescription(description);
@@ -38,8 +59,6 @@ const Form = ({ isEditing, id }) => {
       alert("Failed to fetch destination data");
     }
   };
-  
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -161,7 +180,7 @@ const Form = ({ isEditing, id }) => {
             required
           />
           <button id="submit" type="submit">
-            {isEditing ? "Update Destination" : "Add Destination"}{" "}
+            {isEditing ? "Update Destination" : "Add Destination"}
           </button>
         </div>
       </div>

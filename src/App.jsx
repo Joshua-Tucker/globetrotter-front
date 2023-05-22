@@ -37,7 +37,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Main data={filteredData} getDestinations={getDestinations} />} />
           <Route path="/form" element={<Form isEditing={false} />} />
-          <Route path="/update/:id" component={Form} />
+          <Route path="/update/:id" render={({ match }) => <Form isEditing={true} id={match.params.id} />} />
         </Routes>
       </div>
     </Router>
