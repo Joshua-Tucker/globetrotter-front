@@ -1,0 +1,94 @@
+.form{
+    padding:3vh;
+    border: 0.5vh solid black;
+    border-radius: 5vh;
+    height:50vh;
+    width:74vw;
+    margin: 0 auto;
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+
+&__left{
+    height:50vh;
+    width:40vw;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+&__right{
+    height:50vh;
+    width:40vw;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center; 
+}
+
+
+}
+
+// #location{
+//     display:flex;
+//     flex-direction: column;
+//     justify-content: center;
+//     align-items: center;
+//     margin:2vh;
+
+// }
+// #country{
+//     display:flex;
+//     flex-direction: column;
+//     justify-content: center;
+//     align-items: center;
+//     margin:2vh;
+
+// }
+// #description{
+//     display:flex;
+//     flex-direction: column;
+//     justify-content: center;
+//     align-items: center;
+// }
+// #rating{
+//     display:flex;
+//     flex-direction: column;
+//     justify-content: center;
+//     align-items: center;
+//     margin:2vh;
+
+// }
+// #arrivalDate{
+//     display:flex;
+//     flex-direction: column;
+//     justify-content: center;
+//     align-items: center;
+//     margin:2vh;
+
+// }
+// #departureDate{
+//     display:flex;
+//     flex-direction: column;
+//     justify-content: center;
+//     align-items: center;
+//     margin:2vh;
+
+// }
+// #images{
+//     display:flex;
+//     flex-direction: column;
+//     justify-content: center;
+//     align-items: center;
+//     margin:2vh;
+
+// }
+// #submit{
+//     display:flex;
+//     flex-direction: column;
+//     justify-self: center;
+//     align-self: center;
+//     margin:2vh;
+// }

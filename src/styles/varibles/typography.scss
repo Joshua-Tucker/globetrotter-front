@@ -1,0 +1,59 @@
+@use "./abstracts.scss" as *;
+
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;600&family=Montserrat+Alternates:ital,wght@0,400;0,500;1,400&display=swap');
+
+
+
+
+$fontTitle: 'Jost', sans-serif; 
+$fontText:'Montserrat Alternates', sans-serif;
+$lineheight: 1.8rem;
+$font-title-desktop: 3rem;
+$font-large-header: 2rem;
+$font-medium-header: 1.5rem;
+$font-text: 1.125rem;
+$font-text-small: 1rem;
+$font-text-smallest: 0.8rem;
+
+h1,
+  h2,
+  h3,
+  p {
+    margin: 0.5rem 0;
+    display: inline-block;
+    width: 100%;
+  }
+  
+  button {
+    font-size: $font-text-small;
+  }
+  
+  h1 {
+    font-size: $font-large-header;
+  }
+  
+  h2 {
+    font-size: $font-medium-header;
+  }
+  
+  h3 {
+    font-size:$font-text-small;
+    font-weight: 100;
+  }
+  p {
+    font-size: 0.6rem;
+  }
+  
+
+
+@media screen and (min-width: $tablet-breakpoint) {
+    :root {
+      font-size: 120%;
+    }
+}
+
+  @media screen and (min-width: $desktop-breakpoint) {
+    :root {
+      font-size: 150%;
+    }
+  }

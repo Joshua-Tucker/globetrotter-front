@@ -1,0 +1,41 @@
+.carousel-image{
+    height:40vh;
+    width:auto;
+}
+.destination{
+    margin:1vh;
+    border: 0.5vh solid black;
+    border-radius: 5vh;
+    height:70vh;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    &__top{
+        display:flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 5vh;
+        width:80%;
+    }
+  
+    &__images{
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        width:80%;
+        margin: 0 auto;
+        height:25vh;
+        margin: 2vh;
+    }
+    &__details{
+        display:flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding:2vh;
+        height:10vh;
+        overflow:auto;
+        margin-top: 4vh;
+    }
+}

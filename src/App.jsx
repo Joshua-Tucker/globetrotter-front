@@ -2,19 +2,22 @@ import React, { useState, useEffect } from "react";
 import "./App.scss";
 import Header from "./Containers/Header/Header";
 import Main from "./Containers/Main/Main";
-import Form from "./Form/Form";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Form from "./Components/Form/Form";
+import { useParams } from "react-router-dom";
 
 function App() {
-  const [destinationData, setDestinationData] = useState([]); // State to store the destination data
-  const [filteredData, setFilteredData] = useState([]); // State to store the filtered data
+  const [destinationData, setDestinationData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const { id } = useParams(); // Access the destinationId parameter from the URL
 
   const getDestinations = async () => {
     try {
-      const response = await fetch("http://localhost:8080/all"); // Make an API request to fetch the destination data
+      const response = await fetch("http://localhost:8080/all");
       if (response.ok) {
-        const data = await response.json(); // Parse the response data
-        setDestinationData(data); // Set the destination data in state
-        setFilteredData(data); // Set the filtered data in state (initially the same as destination data)
+        const data = await response.json();
+        setDestinationData(data);
+        setFilteredData(data);
       } else {
         console.log("Error: Unable to fetch data");
       }
@@ -24,16 +27,20 @@ function App() {
   };
 
   useEffect(() => {
-    getDestinations(); // Fetch the destination data when the component mounts (runs only once)
+    getDestinations();
   }, []);
 
   return (
-    <div className="App">
-      <Header /> {/* Render the Header component */}
-      <Main data={filteredData} />{" "}
-      <Form/>
-      {/* Render the Main component and pass the filteredData as prop */}
-    </div>
+    <Router>
+      <div className="App">
+        <Header />
+        <Routes>
+          <Route path="/" element={<Main data={filteredData} getDestinations={getDestinations} />} />
+          <Route path="/form" element={<Form isEditing={false} />} />
+          <Route path="/update/:id" component={Form} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

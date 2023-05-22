@@ -8,7 +8,7 @@ const Main = ({ data }) => {
           <Destination
             key={index}
             arrivalDate={destination.arrivalDate}
-            departDate={destination.departDate}
+            departureDate={destination.departureDate}
             location={destination.location}
             country={destination.country}
             rating={destination.rating}

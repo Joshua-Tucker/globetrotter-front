@@ -1,0 +1,47 @@
+@use "../../styles/varibles/typography.scss" as *;
+@use "../../styles/varibles/abstracts.scss" as *;
+
+.button {
+  width: 13.5vw;
+  height: 5vh;
+  font-family: $fontText;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  margin: 0vh 1vh;
+  padding: 1vh 1vw;
+  :active {
+    transform: translateY(4px);
+  }
+  :hover {
+    background-color: $dark-background-footer;
+    color: $color-white;
+    border-radius: 2vh;
+  }
+}
+
+.hasBorder {
+  border-radius: 2vh;
+  font-weight: bold;
+  border: 0.5vh solid $color-dark-grey;
+  padding: 0;
+  :hover {
+    background-color: $dark-background-footer;
+    color: $color-white;
+    border-radius: 2vh;
+    padding: 1.7vh 3.75vw;
+    border: 0.5vh solid $color-dark-grey;
+  }
+  :active {
+    transform: translateY(4px);
+  }
+}
+
+@media screen and (min-width: $large-desktop-breakpoint) {
+  .hasBorder :hover {
+    padding: 1.6vh 4.5vw;
+  }
+}
