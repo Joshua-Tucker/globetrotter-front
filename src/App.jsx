@@ -35,9 +35,15 @@ function App() {
       <div className="App">
         <Header />
         <Routes>
-          <Route path="/" element={<Main data={filteredData} getDestinations={getDestinations} />} />
+          <Route
+            path="/"
+            element={
+              <Main data={filteredData} getDestinations={getDestinations} />
+            }
+          />
           <Route path="/form" element={<Form isEditing={false} />} />
-          <Route path="/update/:id" render={({ match }) => <Form isEditing={true} id={match.params.id} />} />
+          <Route path={`/form/edit/:id`} element={<Form isEditing={true} />} />
+
         </Routes>
       </div>
     </Router>

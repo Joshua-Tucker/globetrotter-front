@@ -1,6 +1,5 @@
 import React from "react";
 import Destination from "../../Components/Destination/Destination";
-import { Link } from "react-router-dom";
 
 const Main = ({ data }) => {
   return (
@@ -16,7 +15,6 @@ const Main = ({ data }) => {
             description={destination.description}
             images={destination.images}
           />
-          <Link to={`/update/${destination.id}`}>Update</Link>
         </div>
       ))}
     </div>

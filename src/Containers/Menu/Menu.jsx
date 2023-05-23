@@ -1,63 +1,69 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Button from "../../Components/Button/Button";
 import Cross from "../../styles/images/black-cross.png";
-import { Link } from "react-router-dom";
 import Overlay from "../../Components/Overlay/Overlay";
+import { createBrowserHistory } from "history";
 
 const Menu = ({ toggleMenu }) => {
   const [showOverlay, setShowOverlay] = useState(false);
   const [id, setId] = useState("");
+  const [destinationData, setDestinationData] = useState(null);
+  const history = createBrowserHistory();
   const [location, setLocation] = useState("");
   const [country, setCountry] = useState("");
   const [description, setDescription] = useState("");
   const [rating, setRating] = useState(0);
   const [arrivalDate, setArrivalDate] = useState("");
   const [departureDate, setDepartureDate] = useState("");
-  const [imageFiles, setImageFiles] = useState(null);
 
   const toggleOverlay = () => {
+    fetchDestinationData(id);
     setShowOverlay(!showOverlay);
   };
 
-  const handleUpdate = async () => {
+  const handleOverlayUpdate = (id) => {
+    console.log("Updating with id:", id);
+    setId(id);
+    fetchDestinationData(id);
+  };
+
+  const fetchDestinationData = async (id) => {
     try {
-      const formData = new FormData();
-      formData.append("location", location);
-      formData.append("country", country);
-      formData.append("description", description);
-      formData.append("rating", rating);
-      formData.append("arrivalDate", arrivalDate);
-      formData.append("departureDate", departureDate);
-
-      // Append image files if available
-      if (imageFiles) {
-        for (let i = 0; i < imageFiles.length; i++) {
-          formData.append("imageFiles", imageFiles[i]);
-        }
-      }
-
-      const response = await fetch(`http://localhost:8080/destination/edit/${id}`, {
-        method: "PUT",
-        body: formData,
-      });
-
+      const response = await fetch(`http://localhost:8080/${id}`);
       if (response.ok) {
-        // Handle successful update
-        const updatedData = await response.json();
-        // Perform necessary actions, such as updating the UI or showing a success message
+        const data = await response.json();
+        setDestinationData(data);
+        populateFormData(data);
       } else {
-        // Handle update failure
-        throw new Error("Failed to update destination");
+        throw new Error("Failed to fetch destination data");
       }
     } catch (error) {
       console.log(error);
-      // Show error message to the user or perform error handling
+      alert("Failed to fetch destination data");
     }
   };
 
+  const populateFormData = (data) => {
+    setLocation(data.location);
+    setCountry(data.country);
+    setDescription(data.description);
+    setRating(data.rating);
+    setArrivalDate(data.arrivalDate);
+    setDepartureDate(data.departureDate);
+  };
+  
+
   return (
     <>
-      {showOverlay && <Overlay toggleOverlay={toggleOverlay} handleUpdate={handleUpdate} id={id} />}
+      {showOverlay && (
+        <Overlay
+          toggleOverlay={toggleOverlay}
+          handleOverlayUpdate={handleOverlayUpdate}
+          setId={setId}
+          id={id}
+        />
+      )}
 
       <div className="menu">
         <Link to={"/form"} style={{ textDecoration: "none", color: "black" }}>
@@ -65,7 +71,7 @@ const Menu = ({ toggleMenu }) => {
         </Link>
         <Button text="Edit" handleClick={toggleOverlay} />
 
-        <img src={Cross} onClick={toggleMenu} />
+        <img src={Cross} alt="Cross" onClick={toggleMenu} />
       </div>
     </>
   );
