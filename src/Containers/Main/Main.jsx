@@ -1,9 +1,10 @@
 import React from "react";
 import Destination from "../../Components/Destination/Destination";
+import "./Main.scss"
 
 const Main = ({ data }) => {
   return (
-    <div>
+    <div className="main">
       {data.map((destination, index) => (
         <div key={index}>
           <Destination

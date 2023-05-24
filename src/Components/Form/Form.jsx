@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
-import { createBrowserHistory } from "history";
 import "./Form.scss";
 
 const Form = ({ isEditing }) => {
@@ -12,42 +11,16 @@ const Form = ({ isEditing }) => {
   const [departureDate, setDepartureDate] = useState("");
   const [imageFiles, setImageFiles] = useState(null);
   const [destinationData, setDestinationData] = useState(null);
-
   const locationState = useLocation().state;
-  const history = createBrowserHistory();
   const { id } = useParams();
 
   useEffect(() => {
-    if (id) {
-      fetchDestinationData(id);
+    if (id || (isEditing && locationState && locationState.destinationData)) {
+      fetchDestinationData();
     }
-  }, []);
+  }, [id, isEditing, locationState]);
 
-  useEffect(() => {
-    if (isEditing) {
-      if (locationState && locationState.destinationData) {
-        const {
-          location,
-          country,
-          description,
-          rating,
-          arrivalDate,
-          departureDate
-        } = locationState.destinationData;
-        setLocation(location);
-        setCountry(country);
-        setDescription(description);
-        setRating(rating);
-        setArrivalDate(arrivalDate);
-        setDepartureDate(departureDate);
-      } else {
-        fetchDestinationData(id);
-      }
-    }
-  }, [isEditing, locationState, id]);
-
-  const fetchDestinationData = async (id) => {
-    console.log('Fetching destination data for id:', id);
+  const fetchDestinationData = async () => {
     try {
       const response = await fetch(`http://localhost:8080/${id}`);
       if (response.ok) {
@@ -74,40 +47,51 @@ const Form = ({ isEditing }) => {
       alert("Failed to fetch destination data");
     }
   };
-  
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     try {
-      const requestData = {
-        location,
-        country,
-        description,
-        rating,
-        arrivalDate,
-        departureDate,
-        imageFiles: imageFiles || [], // Ensure imageFiles is an array
-      };
-  
-      let url = "";
-      let method = "";
-  
+      let response;
+      let requestData;
+
       if (isEditing) {
-        url = `http://localhost:8080/destination/edit/${id}`;
-        method = "PUT";
+        // Handle JSON request for update
+        requestData = {
+          location,
+          country,
+          description,
+          rating,
+          arrivalDate,
+          departureDate,
+          imageFiles: imageFiles || [],
+        };
+
+        response = await fetch(`http://localhost:8080/destination/edit/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestData),
+        });
       } else {
-        url = "http://localhost:8080/add";
-        method = "POST";
+        // Handle form data request for addition
+        const formData = new FormData();
+        formData.append("location", location);
+        formData.append("country", country);
+        formData.append("description", description);
+        formData.append("rating", rating);
+        formData.append("arrivalDate", arrivalDate);
+        formData.append("departureDate", departureDate);
+        for (let i = 0; i < imageFiles.length; i++) {
+          formData.append(`imageFiles`, imageFiles[i]);
+        }
+        response = await fetch("http://localhost:8080/add", {
+          method: "POST",
+          body: formData,
+        });
       }
-  
-      const response = await fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestData),
-      });
-  
+
       if (response.ok) {
         const data = await response.json();
         setDestinationData(data);
@@ -119,50 +103,6 @@ const Form = ({ isEditing }) => {
       alert("Failed to submit the form");
     }
   };
-  
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-
-  //   try {
-  //     const formData = new FormData();
-  //     formData.append("location", location);
-  //     formData.append("country", country);
-  //     formData.append("description", description);
-  //     formData.append("rating", rating);
-  //     formData.append("arrivalDate", arrivalDate);
-  //     formData.append("departureDate", departureDate);
-  //     for (let i = 0; i < imageFiles.length; i++) {
-  //       formData.append("imageFiles", imageFiles[i]);
-  //     }
-
-  //     let url = "";
-  //     let method = "";
-
-  //     if (isEditing) {
-  //       url = `http://localhost:8080/destination/edit/${id}`;
-  //       method = "PUT";
-        
-  //     } else {
-  //       url = "http://localhost:8080/add";
-  //       method = "POST";
-  //     }
-
-  //     const response = await fetch(url, {
-  //       method,
-  //       body: formData,
-  //     });
-
-  //     if (response.ok) {
-  //       const data = await response.json();
-  //       setDestinationData(data);
-  //     } else {
-  //       throw new Error("Failed to submit the form");
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //     alert("Failed to submit the form");
-  //   }
-  // };
 
   return (
     <form onSubmit={handleSubmit} encType="multipart/form-data">
@@ -240,6 +180,7 @@ const Form = ({ isEditing }) => {
             }}
             required
           />
+
           <button id="submit" type="submit">
             {isEditing ? "Update Destination" : "Add Destination"}
           </button>
@@ -250,3 +191,5 @@ const Form = ({ isEditing }) => {
 };
 
 export default Form;
+
+//  encType="multipart/form-data"
